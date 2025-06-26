@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+<style>
+    :root {
+        --bg-color: #ffffff;
+        --text-color: #000000;
+        --card-bg: #ffffff;
+        --input-bg: #f0f0f0;
+        --primary-color: #6a11cb;
+        --highlight: #1d3557;
+        --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark {
+        --bg-color: #0f2027;
+        --text-color: #f0f0f0;
+        --card-bg: #1c1c1e;
+        --input-bg: #2c2c2e;
+        --primary-color: #00e5ff;
+        --highlight: #00e6e6;
+        --shadow: rgba(0, 0, 0, 0.5);
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg-color);
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        transition: all 0.3s ease;
+    }
+
+    #outer {
+        width: 100%;
+        max-width: 400px;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px var(--shadow);
+        background: var(--card-bg);
+        text-align: center;
+        border: 2px solid #ccc;
+        transition: all 0.3s ease;
+    }
+
+    #outer h1 {
+        color: var(--primary-color);
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #999;
+        border-radius: 10px;
+        font-size: 16px;
+        background-color: var(--input-bg);
+        color: var(--text-color);
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    button:hover {
+        background: linear-gradient(to right, #2575fc, #6a11cb);
+    }
+
+    p {
+        margin: 10px 0;
+        font-size: 16px;
+        background: var(--input-bg);
+        border-radius: 10px;
+        padding: 8px 12px;
+    }
+
+    span {
+        font-weight: bold;
+        color: var(--highlight);
+    }
+
+    img {
+        height: 60px;
+    }
+
+    .toggle-mode {
+        margin-top: 15px;
+        background: #444;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .toggle-mode:hover {
+        background: #666;
+    }
+</style>
+
+
+</head>
+<body>
+    <div id="outer">
+        <h1>Weather app</h1>
+        Enter City Name : 
+        <input type="text" name="" id="t1">
+        <button onclick="getdata()">Get weather info</button>
+        <div>
+            <p><img id="data6" alt="Weather Icons"></p>
+            <p>Weather: <span id="data5"></span></p>
+            <p>Temperature: <span id="data1"></span></p>
+            <p>Feels like <span id="data2"></span></p>
+            <p>Wind Speed <span id="data3"></span></p>
+            <p>Wind direction <span id="data4"></span></p>
+        </div>
+    </div>
+    <script>
+       function getdata() {
+    var city = document.getElementById("t1").value;
+    if (city != "") {
+        var apikey = "e1a8320b207a1d3673b64f03032b23b2";
+        var apiurl = "http://api.weatherstack.com/current?access_key=" + apikey + "&query=" + city;
+        
+        fetch(apiurl).then(response => {
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            document.getElementById("data1").innerHTML = data.current.temperature;
+            document.getElementById("data2").innerHTML = data.current.feelslike;
+            document.getElementById("data3").innerHTML = data.current.wind_speed;
+            document.getElementById("data4").innerHTML = data.current.wind_dir;
+            document.getElementById("data5").innerHTML = data.current.weather_descriptions[0];
+            document.getElementById("data6").src = data.current.weather_icons[0];
+        });
+    }
+}
+
+    </script>
+</body>
+</html>
